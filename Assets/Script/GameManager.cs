@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         AddAllResources();
+        TotalGold = UserDataManager.Progress.Gold;
     }
 
     private void Update()
@@ -62,12 +63,13 @@ public class GameManager : MonoBehaviour
     private void AddAllResources()
     {
         bool showResources = true;
+        int index = 0;
 
         foreach (ResourceConfig config in ResourcesConfigs)
         {
             GameObject obj = Instantiate(ResourcePrefab.gameObject, ResourcesParent, false);
             ResourceController resource = obj.GetComponent<ResourceController>();
-            resource.SetConfig(config);
+            resource.SetConfig(index, config);
 
             obj.gameObject.SetActive(showResources);
 
@@ -77,6 +79,7 @@ public class GameManager : MonoBehaviour
             }
 
             _activeResources.Add(resource);
+            index++;
         }
     }
 
@@ -130,6 +133,8 @@ public class GameManager : MonoBehaviour
     {
         TotalGold += value;
         GoldInfo.text = $"Gold: { TotalGold.ToString("0") }";
+        UserDataManager.Progress.Gold = value;
+        UserDataManager.Save();
     }
 
     public void CollectByTap(Vector3 tapPosition, Transform parent)
