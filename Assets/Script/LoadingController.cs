@@ -7,7 +7,14 @@ public class LoadingController : MonoBehaviour
 {
     private void Start()
     {
-        UserDataManager.Load();
-        SceneManager.LoadScene(1);
+        UserDataManager.Load();        
+    }
+
+    private void Update()
+    {
+        if (UserDataManager.LoadComplete())
+        {
+            SceneManager.LoadScene(1);
+        }
     }
 }

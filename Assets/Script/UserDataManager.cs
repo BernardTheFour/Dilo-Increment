@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class UserDataManager
 {
@@ -22,6 +20,11 @@ public static class UserDataManager
             string json = PlayerPrefs.GetString(PROGRESS_KEY);
             Progress = JsonUtility.FromJson<UserProgressData>(json);
         }
+    }
+
+    public static bool LoadComplete()
+    {
+        return Progress != null ? true : false;
     }
 
     public static bool HasResources(int index)

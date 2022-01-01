@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -133,7 +132,13 @@ public class GameManager : MonoBehaviour
     {
         TotalGold += value;
         GoldInfo.text = $"Gold: { TotalGold.ToString("0") }";
-        UserDataManager.Progress.Gold = value;
+
+        if (UserDataManager.Progress == null)
+        {
+            Debug.Log("UserDataManager doesnt exist");
+        }
+
+        UserDataManager.Progress.Gold = TotalGold;
         UserDataManager.Save();
     }
 
