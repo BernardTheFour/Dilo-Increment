@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+# Firebase 32-bit plugins
+/Assets/Firebase/Plugins/x86_64*
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
@@ -57,9 +60,6 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
-
-# Firebase 32-bit plugins
-[Aa]ssets/Firebase/Plugins/x86_64/
 
 
 
