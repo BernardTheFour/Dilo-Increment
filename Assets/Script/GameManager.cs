@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     }
     [Range(0f, 1f)]
     public float AutoCollectPercentage = 0.1f;
+    public float SaveDelay = 5f;
     public ResourceConfig[] ResourcesConfigs;
     public Sprite[] ResourcesSprites;
 
@@ -34,19 +35,24 @@ public class GameManager : MonoBehaviour
     private List<TapText> _tapTextPool = new List<TapText>();
 
     private float _collectSecond;
+    private float _saveDelayCounter;
 
     public double TotalGold { get; private set; }
 
     private void Start()
     {
         AddAllResources();
+
         TotalGold = UserDataManager.Progress.Gold;
     }
 
     private void Update()
     {
+        float deltaTime = Time.unscaledDeltaTime;
+        _saveDelayCounter -= deltaTime;
+
         // Fungsi untuk selalu mengeksekusi CollectPerSecond setiap detik 
-        _collectSecond += Time.unscaledDeltaTime;
+        _collectSecond += deltaTime;
         if (_collectSecond >= 1f)
         {
             CollectPerSecond();
@@ -133,13 +139,12 @@ public class GameManager : MonoBehaviour
         TotalGold += value;
         GoldInfo.text = $"Gold: { TotalGold.ToString("0") }";
 
-        if (UserDataManager.Progress == null)
-        {
-            Debug.Log("UserDataManager doesnt exist");
-        }
+        UserDataManager.Save(_saveDelayCounter < 0f);
 
-        UserDataManager.Progress.Gold = TotalGold;
-        UserDataManager.Save();
+        if (_saveDelayCounter < 0f)
+        {
+            _saveDelayCounter = SaveDelay;
+        }
     }
 
     public void CollectByTap(Vector3 tapPosition, Transform parent)
